@@ -33,6 +33,7 @@ module Beaker
         :vbguest_plugin       => ['BEAKER_VB_GUEST_PLUGIN', 'BEAKER_vb_guest_plugin'],
         :tag_includes         => ['BEAKER_TAG'],
         :tag_excludes         => ['BEAKER_EXCLUDE_TAG'],
+        :is_aio               => ['BEAKER_IS_AIO'],
       }
 
       # Select all environment variables whose name matches provided regex
@@ -79,6 +80,17 @@ module Beaker
                  when /no|false/ then 'foss'
                  else
                    raise "Invalid value for one of #{ENVIRONMENT_SPEC[:is_pe].join(' ,')}: #{is_pe_val}"
+                 end
+
+          found_env_vars[:type] = type
+        end
+
+        if found_env_vars[:is_aio]
+          is_aio_val = found_env_vars[:is_aio]
+          type = case is_aio_val
+                 when /yes|true/ then 'aio'
+                 else
+                   raise "Invalid value for one of #{ENVIRONMENT_SPEC[:is_aio].join(' ,')}: #{is_aio_val}"
                  end
 
           found_env_vars[:type] = type
