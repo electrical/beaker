@@ -47,6 +47,7 @@ module Beaker
       wait = 3
       begin
          @logger.debug "Attempting ssh connection to #{host}, user: #{user}, opts: #{ssh_opts}"
+         ssh_opts.merge!({:user_known_hosts_file => [] })
          Net::SSH.start(host, user, ssh_opts)
        rescue *RETRYABLE_EXCEPTIONS => e
          if try <= 11
